@@ -1,0 +1,11 @@
+<oddjob xmlns:mail='http://rgordon.co.uk/oddjob/mail'>
+    <job>
+        <mail:send name='Send alert mail' 
+                   from='${my.alert.from}'
+                   to='${my.alert.to}' 
+                   host='${my.mailhost}' 
+                   subject='FTP download failed'>
+            Important jobs Failed!
+        </mail:send>
+    </job>
+</oddjob>

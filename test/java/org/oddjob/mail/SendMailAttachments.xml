@@ -1,0 +1,18 @@
+<oddjob xmlns:mail='http://rgordon.co.uk/oddjob/mail'>
+    <job>
+        <mail:send name='Send Attachments' 
+                   from='${my.alert.from}'
+                   to='${my.alert.to}' 
+                   host='${my.mailhost}'
+                   subject='Some Attachements'>
+            <files>
+                <list>
+                    <values>
+                        <file file='build.xml'/>
+                        <file file='build.xml'/>
+                    </values>
+                </list>
+            </files>
+        </mail:send>
+    </job>
+</oddjob>
