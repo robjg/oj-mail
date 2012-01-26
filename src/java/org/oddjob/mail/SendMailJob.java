@@ -103,9 +103,6 @@ public class SendMailJob
 	    	throw new IllegalStateException("No host set.");
 	    }
 
-	    ClassLoader existing = Thread.currentThread().getContextClassLoader();
-	    Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
-
 	    try {
 	  		Properties properties = new Properties();
 		    properties.put("mail.smtp.host", host);
@@ -159,9 +156,6 @@ public class SendMailJob
 	    }
 	    catch (MessagingException e) {
 	    	throw new RuntimeException(e);
-	    }
-	    finally {
-		    Thread.currentThread().setContextClassLoader(existing);
 	    }
 	    
 		logger.info("Mail sent.");
