@@ -135,6 +135,7 @@ public class SendMailJob
 			
 			if (files != null) {
 				for (File file : files) {
+					logger.info("Adding attachment: " + file);
 					AttachmentPart part = new AttachmentPart();
 					part.setFile(file);
 					multipart.addBodyPart(part.toValue());
