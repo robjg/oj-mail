@@ -1,0 +1,20 @@
+<ivy-module version="2.0">
+  <info organisation="uk.co.rgordon" module="oj-mail"/>
+
+	<configurations>
+        <conf name="default" visibility="public"></conf>
+        <conf name="provided" visibility="public"></conf>
+        <conf name="test" visibility="public"></conf>
+	</configurations>  
+        
+	<dependencies>
+	
+	    <dependency org="uk.co.rgordon" name="oddjob" rev="latest.integration"
+	    	conf="provided->default" />
+	    	
+	    <dependency org="uk.co.rgordon" name="arooa" rev="latest.integration"
+	    	conf="test->test" />
+	    	
+	</dependencies>
+  
+</ivy-module>
