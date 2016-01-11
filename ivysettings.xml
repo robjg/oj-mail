@@ -2,4 +2,7 @@
   <properties file="${ivy.default.ivy.user.dir}/ivy.properties"/>
   <property name="ivy.global.settings.dir" value="${ivy.default.settings.dir}" override="false"/>
   <include url="${ivy.global.settings.dir}/ivysettings.xml"/>
+  
+  <property name="mail.version" value="1.5.4" override="false"/>
+  
 </ivysettings>
