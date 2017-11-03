@@ -1,9 +1,12 @@
 package org.oddjob.mail;
-import junit.framework.TestCase;
+
+import org.junit.Test;
+import org.junit.Assert;
 
 
-public class SendMailJobTest extends TestCase {
+public class SendMailJobTest extends Assert {
 
+    @Test
 	public void testNotReally() {
 		// One day....
 	}
