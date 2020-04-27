@@ -1,7 +1,0 @@
-<arooa:descriptor  xmlns:arooa="http://rgordon.co.uk/oddjob/arooa"
-    prefix="mail" namespace="http://rgordon.co.uk/oddjob/mail">
-	<components>
-		<arooa:bean-def element='send'
-		    className='org.oddjob.mail.SendMailJob'/>
-	</components>
-</arooa:descriptor>

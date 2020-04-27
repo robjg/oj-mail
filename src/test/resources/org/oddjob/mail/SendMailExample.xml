@@ -1,0 +1,12 @@
+<oddjob xmlns:mail='http://rgordon.co.uk/oddjob/mail'>
+    <job>
+        <mail:send name='Send alert mail' 
+                   from='${my.alert.from}'
+                   to='${my.alert.to}'
+                   port='${my.mailport}'
+                   host='${my.mailhost}' 
+                   subject='Something Important'>
+            Something Important has happened!
+        </mail:send>
+    </job>
+</oddjob>

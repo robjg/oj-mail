@@ -12,12 +12,18 @@
 		<dependency org="javax.mail" name="javax.mail-api" rev="${mail.version}"
 			conf="default->default"/>
 
-	    <dependency org="uk.co.rgordon" name="oddjob" rev="latest.integration"
+		<dependency org="com.sun.mail" name="javax.mail" rev="${mail.version}"
+					conf="default->default"/>
+
+		<dependency org="uk.co.rgordon" name="oddjob" rev="${project.version}"
 	    	conf="provided->default" />
 	    	
-	    <dependency org="uk.co.rgordon" name="arooa" rev="latest.integration"
+	    <dependency org="uk.co.rgordon" name="arooa" rev="${project.version}"
 	    	conf="test->test" />
-	    	
+
+		<dependency org="org.subethamail" name="subethasmtp" rev="${subethasmtp.vesion}"
+					conf="test->default" />
+
 	</dependencies>
   
 </ivy-module>
