@@ -12,6 +12,9 @@
 		<dependency org="javax.mail" name="javax.mail-api" rev="${mail.version}"
 			conf="default->default"/>
 
+		<dependency org="javax.activation" name="activation" rev="${jaf.version}"
+					conf="default->default"/>
+
 		<dependency org="com.sun.mail" name="javax.mail" rev="${mail.version}"
 					conf="default->default"/>
 
