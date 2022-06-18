@@ -1,6 +1,7 @@
 package org.oddjob.mail;
 
 import org.oddjob.arooa.convert.ArooaConversionException;
+import org.oddjob.arooa.deploy.annotations.ArooaAttribute;
 import org.oddjob.arooa.deploy.annotations.ArooaText;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +13,9 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.Optional;
 import java.util.Properties;
 
 /**
@@ -87,15 +90,44 @@ public class SendMailJob
 	 * @oddjob.description The message body as text.
 	 * @oddjob.required No.
 	 */
+	@ArooaText
 	private String message;
 	
 	/**
 	 * @oddjob.property
-	 * @oddjob.description An list of attachment files.
+	 * @oddjob.description A list of attachment files.
 	 * @oddjob.required No.
 	 */
 	private File[] files;
-	
+
+	/**
+	 * @oddjob.property
+	 * @oddjob.description The Username for authentication.
+	 * @oddjob.required No.
+	 */
+	private String username;
+
+	/**
+	 * @oddjob.property
+	 * @oddjob.description The Password for authentication.
+	 * @oddjob.required No.
+	 */
+	@ArooaAttribute
+	private byte[] password;
+
+	/**
+	 * @oddjob.property
+	 * @oddjob.description Use SSL for communication with the mail host.
+	 * @oddjob.required No.
+	 */
+	private boolean ssl;
+
+	/**
+	 * @oddjob.property
+	 * @oddjob.description Turn detailed debug messages on.
+	 * @oddjob.required No.
+	 */
+	private boolean debug;
 
   	public void run() {
 
@@ -110,10 +142,36 @@ public class SendMailJob
 	  		Properties properties = new Properties();
 		    properties.put("mail.smtp.host", host);
 		    if (port > 0) {
-				properties.put("mail.smtp.port", new Integer(port).toString());
+				properties.put("mail.smtp.port", Integer.toString(port));
 			}
-		    Session session = Session.getInstance(properties);
-//			session.setDebug(true);
+			if (ssl) {
+				properties.put("mail.smtp.ssl.enable", "true");
+			}
+
+		    Session session;
+			if (username == null) {
+				session = Session.getInstance(properties);
+			}
+			else {
+				logger.info("Using username [{}] and {}.", username,
+						password == null ? "no password" : "a password");
+
+				properties.put("mail.smtp.auth", "true");
+				session = Session.getInstance(properties,
+						new Authenticator() {
+							@Override
+							protected PasswordAuthentication getPasswordAuthentication() {
+								return new PasswordAuthentication(username,
+										Optional.of(password).
+												map(p -> new String(p, StandardCharsets.UTF_8))
+												.orElse(null));
+							}
+						});
+			}
+
+			if (debug) {
+				session.setDebug(true);
+			}
 
 		    String[] toList = to.split("\\s*;\\s*");
 		    
@@ -122,20 +180,21 @@ public class SendMailJob
 				addresses[i] = new InternetAddress(toList[i]);
 			}
 	
-			logger.info("Sending mail.");
+			logger.info("Sending mail from [{}] to [{}] using host {}:{}.", from, to, host,
+					port == 0 ? "(default port)" : String.valueOf(port));
 			
-			MimeMessage messsage = new MimeMessage(session);
-			messsage.setFrom(new InternetAddress(from));
+			MimeMessage message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(from));
 			
-			messsage.setRecipients(Message.RecipientType.TO, addresses);
-			messsage.setSubject(subject);
-			messsage.setSentDate(new Date());
+			message.setRecipients(Message.RecipientType.TO, addresses);
+			message.setSubject(subject);
+			message.setSentDate(new Date());
 					
 			Multipart multipart = new MimeMultipart();
 
-			if (message != null) {
+			if (this.message != null) {
 				TextPart part = new TextPart();
-				part.setText(message);
+				part.setText(this.message);
 				multipart.addBodyPart(part.toValue());
 			}
 			
@@ -148,27 +207,24 @@ public class SendMailJob
 				}
 			}
 			
-			messsage.setContent(multipart);
+			message.setContent(multipart);
 			
-			messsage.saveChanges();
+			message.saveChanges();
 	
 			Transport transport = session.getTransport("smtp");
 			transport.connect();
 	
-			transport.addTransportListener(new DebugListener());		
-			transport.sendMessage(messsage, addresses);
+			transport.addTransportListener(new DebugListener());
+			transport.sendMessage(message, addresses);
 	    }
-	    catch (ArooaConversionException e) {
+	    catch (ArooaConversionException | MessagingException e) {
 	    	throw new RuntimeException(e);
 	    }
-	    catch (MessagingException e) {
-	    	throw new RuntimeException(e);
-	    }
-	    
+
 		logger.info("Mail sent.");
  	}
 
-	class DebugListener implements TransportListener {
+	static class DebugListener implements TransportListener {
 		
 		@Override
 		public void messagePartiallyDelivered(TransportEvent e) {
@@ -231,7 +287,6 @@ public class SendMailJob
 		return message;
 	}
 
-	@ArooaText
 	public void setMessage(String message) {
 		this.message = message;
 	}
@@ -243,7 +298,39 @@ public class SendMailJob
 	public void setFiles(File[] files) {
 		this.files = files;
 	}
-	
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public byte[] getPassword() {
+		return password;
+	}
+
+	public void setPassword(byte[] password) {
+		this.password = password;
+	}
+
+	public boolean isSsl() {
+		return ssl;
+	}
+
+	public void setSsl(boolean ssl) {
+		this.ssl = ssl;
+	}
+
+	public boolean isDebug() {
+		return debug;
+	}
+
+	public void setDebug(boolean debug) {
+		this.debug = debug;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -251,7 +338,7 @@ public class SendMailJob
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	@Override
 	public String toString() {
 		if (name == null) {

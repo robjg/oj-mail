@@ -1,7 +1,7 @@
 <ivysettings>
   <include file="../oj-assembly/ivysettings.xml"/>
   
-  <property name="mail.version" value="1.6.2" override="false"/>
+  <property name="mail.version" value="1.6.7" override="false"/>
   <property name="subethasmtp.vesion" value="3.1.7"/>
   <property name="jaf.version" value="1.1.1"/>
 

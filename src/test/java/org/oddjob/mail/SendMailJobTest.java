@@ -35,8 +35,8 @@ public class SendMailJobTest extends Assert {
 
 		properties.setProperty("my.alert.from", "me@foo.com");
 		properties.setProperty("my.alert.to", "you@foo.com");
-		properties.setProperty("my.mailport", "25000");
-		properties.setProperty("my.mailhost", "localhost");
+		properties.setProperty("my.mail.port", "25000");
+		properties.setProperty("my.mail.host", "localhost");
 
 		File config = new File(getClass().getResource("SendMailExample.xml").getFile());
 

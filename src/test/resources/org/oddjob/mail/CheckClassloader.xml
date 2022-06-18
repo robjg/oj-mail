@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<oddjob>
+    <job>
+        <sequential>
+            <jobs>
+                <echo name="About">If something else pulls in the Activation lib it will mess up the Oddball classloader. Use this to check</echo>
+                <bean class="org.oddjob.util.ClassLoaderDiagnostics" className="javax.activation.MailcapCommandMap" id="for-class"/>
+            </jobs>
+        </sequential>
+    </job>
+</oddjob>

@@ -1,18 +1,16 @@
-<oddjob xmlns:mail='http://rgordon.co.uk/oddjob/mail'>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<oddjob id="oddjob">
     <job>
-        <mail:send name='Send Attachments' 
-                   from='${my.alert.from}'
-                   to='${my.alert.to}' 
-                   host='${my.mailhost}'
-                   subject='Some Attachements'>
+        <mail:send from="${my.alert.from}" host="${my.mail.host}" name="Send Attachments" password="${my.mail.password}" port="${my.mail.port}" ssl="true" subject="Some Attachements" to="${my.alert.to}" username="${my.mail.username}" xmlns:mail="http://rgordon.co.uk/oddjob/mail">
             <files>
                 <list>
                     <values>
-                        <file file='build.xml'/>
-                        <file file='build.xml'/>
+                        <file file="${oddjob.dir}/about.txt"/>
+                        <file file="${oddjob.dir}/logo.png"/>
                     </values>
                 </list>
             </files>
+            <![CDATA[Check out these attachements!]]>
         </mail:send>
     </job>
 </oddjob>

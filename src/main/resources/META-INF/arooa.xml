@@ -2,6 +2,49 @@
     prefix="mail" namespace="http://rgordon.co.uk/oddjob/mail">
 	<components>
 		<arooa:bean-def element='send'
-		    className='org.oddjob.mail.SendMailJob'/>
+		    className='org.oddjob.mail.SendMailJob'>
+			<design>
+				<design:form xmlns:design="arooa:design">
+					<formItems>
+						<design:group bordered="true" title="General">
+							<formItems>
+								<design:text property="name" title="Name"/>
+							</formItems>
+						</design:group>
+						<design:tabs>
+							<formItems>
+								<design:group title="Mail">
+									<formItems>
+										<design:text property="from" title="From"/>
+										<design:text property="to" title="To"/>
+										<design:text property="subject" title="Subject"/>
+										<design:textarea title="Message"/>
+										<design:single property="files" title="Attachments"/>
+									</formItems>
+								</design:group>
+								<design:group title="Connection">
+									<formItems>
+										<design:group bordered="true" title="Server">
+											<formItems>
+												<design:text property="host" title="Name"/>
+												<design:text property="port" title="Command"/>
+											</formItems>
+										</design:group>
+										<design:group bordered="true" title="Advanced">
+											<formItems>
+												<design:text property="username" title="Username"/>
+												<design:text property="password" title="Password"/>
+												<design:text property="ssl" title="Use SSL"/>
+												<design:text property="debug" title="Debug"/>
+											</formItems>
+										</design:group>
+									</formItems>
+								</design:group>
+							</formItems>
+						</design:tabs>
+					</formItems>
+				</design:form>
+			</design>
+		</arooa:bean-def>
 	</components>
 </arooa:descriptor>
