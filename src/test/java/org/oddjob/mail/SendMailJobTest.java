@@ -1,6 +1,5 @@
 package org.oddjob.mail;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.oddjob.Oddjob;
 import org.oddjob.state.ParentState;
@@ -13,12 +12,14 @@ import org.subethamail.smtp.RejectException;
 import org.subethamail.smtp.server.SMTPServer;
 
 import java.io.*;
+import java.util.Objects;
 import java.util.Properties;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 
-public class SendMailJobTest extends Assert {
+public class SendMailJobTest {
 
 	private static final Logger logger = LoggerFactory.getLogger(SendMailJobTest.class);
 
@@ -38,7 +39,8 @@ public class SendMailJobTest extends Assert {
 		properties.setProperty("my.mail.port", "25000");
 		properties.setProperty("my.mail.host", "localhost");
 
-		File config = new File(getClass().getResource("SendMailExample.xml").getFile());
+		File config = new File(Objects.requireNonNull(
+				getClass().getResource("SendMailExample.xml")).getFile());
 
 		Oddjob oddjob = new Oddjob();
 		oddjob.setFile(config);
@@ -77,7 +79,7 @@ public class SendMailJobTest extends Assert {
 				logger.info("RECIPIENT:" + recipient);
 			}
 
-			public void data(InputStream data) throws IOException {
+			public void data(InputStream data) {
 				logger.info("MAIL DATA");
 				logger.info("= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =");
 				logger.info(this.convertStreamToString(data));
@@ -93,10 +95,10 @@ public class SendMailJobTest extends Assert {
 				BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 				StringBuilder sb = new StringBuilder();
 
-				String line = null;
+				String line;
 				try {
 					while ((line = reader.readLine()) != null) {
-						sb.append(line + "\n");
+						sb.append(line).append("\n");
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
