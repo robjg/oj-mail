@@ -51,7 +51,9 @@
 		<property name="build.src"       	value="${build.dir}/src"/>
 		<property name="build.classes"   	value="${build.dir}/classes"/>
 
-		<property name="oddball.dir"		value="${build.dir}/oddball"/>
+		<property name="target.dir"       	value="./target"/>
+
+		<property name="oddball.dir"		value="${target.dir}/oddball"/>
 		<property name="oddball.lib"    	value="${oddball.dir}/lib"/>
 
 		<property name="build.tests"		value="${build.dir}/test-classes"/>
@@ -270,7 +272,9 @@
 	<!-- =================================================================== -->
 	<!-- Prepares the binary distribution                                    -->
 	<!-- =================================================================== -->
-	<target name="dist-bin" depends="jar">
+	<target name="dist-bin" depends="init"
+			description="Prepares the binary distribution"
+			if="dist.bin.dir">
 		
 		<property name="to.dir" value="${dist.bin.dir}/oddballs/${name}"/>
 
@@ -279,28 +283,13 @@
 		</copy>
 
 	</target>
-	
-	<!-- =================================================================== -->
-	<!-- Maven Targets			                                     -->
-	<!-- =================================================================== -->
-		
-	<target name="maven-install"
-			description="Not yet implemented">
-	</target>
-	
-    <target name="maven-deploy" 
-    	description="Not yet implemented">
-    </target>
-	
-	<target name="maven-stage" 
-		description="Not yet implemented">
-	</target>
-	
+
 	<!-- =================================================================== -->
 	<!-- Clean targets                                                       -->
 	<!-- =================================================================== -->
 	
 	<target name="clean" depends="init" description="Cleans the build directories">
+		<delete dir="${target.dir}"/>
 		<delete dir="${build.dir}"/>
 	</target>
 
