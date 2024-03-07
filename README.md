@@ -1,7 +1,10 @@
 # Oddjob Mail Jobs
 
-Very crude wrapper round the Java Mail API.
+A wrapper around the Java Mail API that provides 
+an Oddjob for sending mail.
 
-Currently only support unauthenticated unencrypted SMTP.
+For information on configuring the job please see the
+[Reference](docs/reference/README.md)
+
 
  
