@@ -173,7 +173,6 @@ Send a simple message.
         </mail:send>
     </job>
 </oddjob>
-
 ```
 
 
@@ -199,7 +198,6 @@ file as two seperate attachements.
         </mail:send>
     </job>
 </oddjob>
-
 ```
 
 
